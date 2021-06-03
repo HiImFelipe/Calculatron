@@ -1,10 +1,14 @@
 # Calculatron
 
-## Simple calculator made in Electron along with React
+## Simple calculator made in JavaScript
+
+- Tools
+  - Electron
+  - React
 
 > I mean, you aren't a true developer if you haven't made a calculator at least once
 
-That's what most universities think
+<center> That's what most universities think </center>
 
 ### Running the Application
 
