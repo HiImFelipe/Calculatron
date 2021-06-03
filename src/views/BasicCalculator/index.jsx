@@ -11,8 +11,21 @@ import {
   Button,
 } from './styles';
 import {numbers, mathOperations, consoleOperations} from '../../constants/validButtons';
+import {useState} from 'react';
 
 const BasicCalculator = () => {
+  const [prompt, setPrompt] = useState({
+    value: 0,
+    hasJustStarted: true,
+  });
+
+  const addValueToPrompt = (item) => {
+    setPrompt((prevPrompt) => {
+      if (!prevPrompt.hasJustStarted) return {...prevPrompt, value: prevPrompt.value + item.display};
+      return {...prevPrompt, value: item.display, hasJustStarted: false};
+    });
+  };
+
   return (
     <Container>
       <CalculatorHeader>
@@ -20,20 +33,23 @@ const BasicCalculator = () => {
       </CalculatorHeader>
 
       <CalculatorResultContainer>
-        <Result>0</Result>
+        <Result>{prompt.value}</Result>
       </CalculatorResultContainer>
 
       <CalculatorOperationsContainer>
         <TopOperationsContainer>
-          {consoleOperations.map((item, index) => (
-            <Button>
+          {consoleOperations.map((item) => (
+            <Button
+              onClick={() => {
+                item.operation(setPrompt);
+              }}>
               <p>{item.display}</p>
             </Button>
           ))}
         </TopOperationsContainer>
 
         <SideOperationsContainer>
-          {mathOperations.map((item, index) => (
+          {mathOperations.map((item) => (
             <Button>
               <p>{item.display}</p>
             </Button>
@@ -41,8 +57,8 @@ const BasicCalculator = () => {
         </SideOperationsContainer>
 
         <NumbersContainer numberOfColumns={3} numberOfRows={3}>
-          {numbers.map((item, index) => (
-            <Button>
+          {numbers.map((item) => (
+            <Button onClick={() => addValueToPrompt(item)}>
               <p>{item.display}</p>
             </Button>
           ))}
