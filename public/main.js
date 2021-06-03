@@ -3,7 +3,7 @@ require('@electron/remote/main').initialize();
 
 const createWindow = () => {
   const window = new BrowserWindow({
-    width: 800,
+    width: 400,
     height: 600,
     webPreferences: {
       enableRemoteModule: true,
@@ -11,6 +11,7 @@ const createWindow = () => {
   });
 
   window.loadURL('http://localhost:3000');
+  window.removeMenu();
 };
 
 app.whenReady().then(() => {
