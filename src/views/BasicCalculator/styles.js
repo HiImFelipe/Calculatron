@@ -82,9 +82,18 @@ export const Container = styled.div`
   flex-direction: column;
 `;
 
-export const Result = styled.p`
+export const Result = styled.input`
   font-size: 8vh;
   margin-bottom: 0;
+  text-align: right;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const Title = styled.h1`
