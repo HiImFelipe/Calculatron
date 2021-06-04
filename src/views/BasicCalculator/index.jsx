@@ -11,20 +11,42 @@ import {
   Button,
 } from './styles';
 import {numbers, mathOperations, consoleOperations} from '../../constants/validButtons';
-import {useState} from 'react';
+import {useState, useRef, useEffect} from 'react';
 
 const BasicCalculator = () => {
   const [prompt, setPrompt] = useState({
-    value: 0,
+    value: '0',
     hasJustStarted: true,
   });
+  const inputRef = useRef();
+
+  const handlePromptChange = (event) => {
+    setPrompt((prevPrompt) => ({...prevPrompt, value: event.target.value}));
+  };
 
   const addValueToPrompt = (item) => {
+    if (item.type === 'mathOperation') {
+      console.log(prompt.value.length);
+      if (prompt.value.length <= 1) return;
+
+      const lastCharacterIsMathOperation = mathOperations.some(
+        (mathOperation) => prompt.value.split('')[prompt.value.length - 1] === mathOperation.display
+      );
+
+      if (lastCharacterIsMathOperation) return;
+    }
+
     setPrompt((prevPrompt) => {
       if (!prevPrompt.hasJustStarted) return {...prevPrompt, value: prevPrompt.value + item.display};
       return {...prevPrompt, value: item.display, hasJustStarted: false};
     });
   };
+
+  useEffect(() => {
+    inputRef.current.selectionStart = inputRef.current.value.length;
+    inputRef.current.selectionEnd = inputRef.current.value.length;
+    inputRef.current.focus();
+  }, [prompt]);
 
   return (
     <Container>
@@ -33,7 +55,15 @@ const BasicCalculator = () => {
       </CalculatorHeader>
 
       <CalculatorResultContainer>
-        <Result>{prompt.value}</Result>
+        <Result
+          value={prompt.value}
+          ref={inputRef}
+          autoFocus={true}
+          onChange={(event) => {
+            handlePromptChange(event);
+            inputRef.current.focus();
+          }}
+        />
       </CalculatorResultContainer>
 
       <CalculatorOperationsContainer>
@@ -50,7 +80,7 @@ const BasicCalculator = () => {
 
         <SideOperationsContainer>
           {mathOperations.map((item) => (
-            <Button>
+            <Button onClick={() => addValueToPrompt(item)}>
               <p>{item.display}</p>
             </Button>
           ))}
