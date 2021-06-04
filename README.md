@@ -12,6 +12,12 @@
 
 ### Running the Application
 
+Get node_modules (project dependencies)
+```
+yarn install
+```
+
+Run the application itself
 ```
 yarn electron:serve
 ```
