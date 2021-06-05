@@ -26,7 +26,7 @@ const BasicCalculator = () => {
 
   const addValueToPrompt = (item) => {
     if (item.type === 'mathOperation') {
-      if (prompt.value.length <= 1 && prompt.value === '0') return;
+      if (prompt.value.length <= 0 || prompt.value === '0') return;
 
       const lastCharacterIsMathOperation = mathOperations.some(
         (mathOperation) => prompt.value.split('')[prompt.value.length - 1] === mathOperation.display
