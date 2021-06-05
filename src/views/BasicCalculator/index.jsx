@@ -57,8 +57,7 @@ const BasicCalculator = () => {
         <Result
           value={prompt.value}
           ref={inputRef}
-          autoFocus={true}
-          onChange={(event) => {
+          onBlur={(event) => {
             handlePromptChange(event);
             inputRef.current.focus();
           }}
